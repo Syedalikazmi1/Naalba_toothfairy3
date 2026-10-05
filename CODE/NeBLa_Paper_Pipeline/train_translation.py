@@ -1,21 +1,4 @@
-                     
-"""Train the translation module: CycleGAN between real PX (X) and SimPX (Y) with
-semantic consistency (paper Eq. 5, Table 5).
 
-    L = L_CycleGAN(G, H, D_X, D_Y) + lambda * L_seg(G),   lambda = 10
-    L_seg(G) = E_x [ MSE( S(G(x)), S(x) ) ]                S = frozen teeth segmenter
-
-    python train_translation.py --real real_px_images --simpx data/nebla_paper/simpx \
-        --seg runs/teeth_seg/best.pt --out runs/translation
-
-Paper settings: generators are UNets with widths 64/128/256/512, lr 2e-4,
-100 epochs, lambda_seg = 10. CycleGAN defaults where the paper is silent:
-LSGAN loss, cycle weight 10, identity weight 0.5 x 10, Adam betas (0.5, 0.999),
-image pool of 50, constant lr for the first half then linear decay to 0.
-
-``--flip-real`` mirrors real PX left-right if their orientation is opposite to
-the SimPX columns (check one pair of images by eye before training).
-"""
 
 from __future__ import annotations
 
