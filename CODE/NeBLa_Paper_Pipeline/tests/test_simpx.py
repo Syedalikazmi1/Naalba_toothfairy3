@@ -1,11 +1,4 @@
-"""NumPy tests for the paper-faithful SimPX stage (no PyTorch needed).
 
-    python tests/test_simpx.py                       # synthetic tests only
-    python tests/test_simpx.py --data data/nebla_paper --raw data/cbct_v3/volumes
-                                                     # + checks on the built dataset
-
-Also works under pytest (set NEBLA_DATA / NEBLA_RAW for the dataset checks).
-"""
 
 from __future__ import annotations
 
