@@ -1,41 +1,4 @@
-"""SimPX ray geometry exactly as described in the NeBLa appendix (Park et al., AAAI 2024).
 
-Step 1 - rotation centres
-    f(x) = 0.01 (x + 100)^2  for -100 <= x <= 0
-           0.01 (x - 100)^2  for  0 <= x <= 100
-    c_i  = (5i - 50, f(5i - 50)),  i = 0..20, placed on the 256 x 256 axial slice.
-
-Step 2 - ray extraction
-    Rays are LINES THROUGH THE FIXED CENTRES. Starting from c_i the ray is
-    rotated by theta_i (0.5 deg for i = 0, 1, 18, 19; 1.5 deg for i = 10;
-    0.6 deg otherwise). The final ray of c_i is the line through c_i and
-    c_{i+1}. Then c_{i+1} becomes the new rotation centre.
-
-Step 3 (point sampling) lives in ``render.py``.
-
-Conventions used here
----------------------
-Curve coordinates (x, y): x to the patient's left/right, y = f(x) towards the
-front (anterior). A ray's direction is the angle ``phi`` of the line in curve
-coordinates, measured from +x towards +y. Every ray travels towards +y
-(source behind, detector in front), so phi lies in [phi_start, 180 - phi_start].
-
-Slice coordinates (row, col) of the CBCT volume (D, H, W):
-    col = col_offset + x          (default 128 -> curve centred left/right)
-    row = row_offset - y          (default 200 -> apex (y=100) at row 100, ends (y=25) at row 175)
-    anterior = decreasing row, i.e. the front teeth are near row 0.
-These offsets match Fig. 6(b) of the paper and are the SAME for every patient.
-Volumes are brought into this frame by ``cbct_prep.align_volume``.
-
-Interpretation choices (the paper does not state them; documented, not hidden):
-    * phi_start, the direction of the very first ray at c_0, is solved so that
-      the total ray count is exactly 256 (the SimPX width in the paper). The
-      ray layout is mirror-symmetric, so the last ray at c_20 is 180 - phi_start.
-    * Between the previous chord and the current chord a centre emits rays at
-      exact multiples of theta_i; a multiple that falls within theta_i / 2 of
-      the chord is dropped so the chord ray is not duplicated.
-    * The chord ray of c_{i-1} passes through c_i, so c_i does not repeat it.
-"""
 
 from __future__ import annotations
 
