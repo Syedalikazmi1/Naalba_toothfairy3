@@ -1,24 +1,3 @@
-"""3D UNet refinement network, following wolny/pytorch-3dunet ``UNet3D``.
-
-The NeBLa repository names pytorch-3dunet for this component; the paper gives
-four levels with feature widths 64, 128, 256, 512 (Table 6). This module
-reproduces pytorch-3dunet's default design so it runs without that package:
-
-    * ``DoubleConv`` with layer order "gcr" (GroupNorm -> Conv3d -> ReLU), twice;
-      in the encoder the first conv outputs max(out // 2, in) channels;
-      GroupNorm uses 8 groups (1 group when a layer has fewer than 8 channels);
-      convolutions have no bias (GroupNorm follows).
-    * encoder level 1 has no pooling; levels 2-4 start with MaxPool3d(2).
-      The 4th level (512) is the bottom of the U - there is no extra bottleneck.
-    * decoder: nearest-neighbour upsampling to the skip's size, concatenation
-      [skip, x], DoubleConv -> f_maps[i]  (3 decoder levels).
-    * final 1x1x1 convolution, then sigmoid, so the output is a density in
-      [0, 1] like the normalised CBCT target.
-
-``use_checkpoint=True`` recomputes each block in the backward pass, which cuts
-activation memory several-fold at the full 128 x 256 x 256 size.
-"""
-
 from __future__ import annotations
 
 import torch
