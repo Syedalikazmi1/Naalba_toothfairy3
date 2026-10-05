@@ -1,14 +1,4 @@
-"""PyTorch tests for the generation and translation modules.
 
-Run from the pipeline root (needs torch, torchvision; a GPU only for --full):
-
-    python tests/test_torch.py --data data/nebla_paper                # unit tests, CPU is fine
-    python tests/test_torch.py --data data/nebla_paper --full --steps 200
-                                                                      # + full-size run and 1-case overfit
-
-The Eq. 7 scatter in PyTorch is compared against the NumPy reference that
-tests/test_simpx.py checks against a brute-force loop.
-"""
 
 from __future__ import annotations
 
