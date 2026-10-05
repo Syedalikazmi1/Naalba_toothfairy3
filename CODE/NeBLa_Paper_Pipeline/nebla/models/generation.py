@@ -1,22 +1,4 @@
-"""NeBLa generation module (paper Fig. 2, Eq. 6-7).
 
-    SimPX I (B, 1, D, R) --2D UNet--> e(I, p) (B, 128, D, R)          one vector per pixel p
-    for every pixel p = (slice z, ray r) and every sample s on that ray:
-        x      = voxel the sample falls in  (its centre, normalised to [-1, 1])
-        F      = MLP(gamma(x), e(I, p))      (Eq. 6, official NeRF-style MLP)
-    rho(I, x) = 1/|B(x)| * sum_{p in B(x)} F(x, e(I, p))                 (Eq. 7)
-    sigma     = 3D UNet(rho)                                              final density
-
-The lookup tables (which voxel each sample falls in, |B(x)|, the per-ray
-de-duplication weights) come from ``simpx/voxel_index.py`` and are the same
-for every case because the ray geometry is fixed. They are tested in NumPy
-against a brute-force Eq. 7 (tests/test_simpx.py) and the PyTorch scatter here
-is tested against that NumPy reference (tests/test_torch.py).
-
-Memory: one forward evaluates D * R * S = 128 * 256 * 200 = 6.55 M points. The
-MLP runs in chunks of pixels under activation checkpointing, so only the
-(D*R, S) densities are kept; gradients are exact.
-"""
 
 from __future__ import annotations
 
