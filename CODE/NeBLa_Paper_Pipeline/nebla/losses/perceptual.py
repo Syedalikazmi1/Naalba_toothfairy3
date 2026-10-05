@@ -1,11 +1,4 @@
-"""VGG-16 perceptual loss (Johnson, Alahi and Fei-Fei, 2016).
 
-Single-channel inputs in [0, 1] are repeated to three channels, resized so the
-short side is at least 224 (aspect ratio kept), and normalised with ImageNet
-statistics. The VGG weights are frozen. If the pretrained weights cannot be
-loaded, construction FAILS unless ``allow_untrained=True`` - random features
-would make the L_perc term meaningless.
-"""
 
 from __future__ import annotations
 
