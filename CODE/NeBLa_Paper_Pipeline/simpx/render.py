@@ -1,36 +1,4 @@
-"""Step 3 of the appendix (point sampling) and Eq. 4 (Beer-Lambert), with no extras.
 
-Point sampling
-    Along every ray, points are taken at ONE uniform interval shared by all
-    rays (Fig. 8), starting on the source side; only points inside the image
-    boundary count, and the first ``n_points = 200`` are kept. The interval is
-    ``max(H, W) / n_points`` = 256 / 200 = 1.28 voxels, so the 200 points span
-    the full 256-voxel slice (a vertical ray through the incisors reaches the
-    front of the slice). The grid is anchored at each ray's entry point into
-    the slice; the paper anchors it at the source, which only shifts the grid
-    by less than one interval.
-
-Beer-Lambert (Eq. 4)
-    T = exp(-beta * sum_i sigma_i * delta),  pixel = 1 - T.
-    Every sample has the same weight. No focal trough, no display curve.
-    beta is ONE number for the whole dataset, chosen by a search (the paper:
-    "we set beta using a hyperparameter search").
-
-Normalisation ("we can assume A I0 = 1 after normalizing the PX images")
-    In the paper sigma is the CBCT GRAY VALUE (-1000..3000: water ~ 0, air
-    ~ -1000); the offset b of mu = a sigma + b is absorbed into A = exp(-b l),
-    which is the same for every ray because every ray has the same length l.
-    This pipeline renders from the normalised volume sigma_n = (sigma+1000)/4000,
-    so its T differs from the paper's by one constant factor exp(-beta l / 4)
-    (0.62 at beta = 0.0075). Unnormalised, the two SimPX differ by up to 0.43,
-    and the paper's own formula gives negative pixels where rays cross much
-    air. After ANY affine normalisation they agree to 1e-6. So a normalised
-    SimPX is the paper's image whatever convention its authors used:
-      * "global" (default): one min-max map for all cases (keeps intensity
-        differences between patients, like the single beta);
-      * "minmax": per image;
-      * "none": Eq. 4 on sigma_n as written -- NOT the paper's image.
-"""
 
 from __future__ import annotations
 
