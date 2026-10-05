@@ -1,30 +1,4 @@
-"""Bring every CBCT volume into ONE standard pose so the paper's fixed ray layout fits it.
 
-The paper places the 21 rotation centres at fixed positions on the 256 x 256
-axial slice for every patient. That only works when every volume shows the jaw
-in the same place, as it does for a single-hospital dataset where patients are
-positioned the same way. ToothFairy volumes are not positioned consistently
-(the arches of cases 002/003/004 sit up to ~60 voxels apart), so each volume is
-rotated and shifted in the axial plane once, during preprocessing:
-
-    * the front of the arch faces row 0 (anterior = decreasing row),
-    * the arch is centred left/right on column ``col_center`` (128),
-    * the front of the incisors sits on row ``incisor_row``.
-
-No scaling: a rigid in-plane transform, the same for every axial slice. The
-target volume is transformed with the input, so the network learns in this
-standard frame and nothing about the target is passed to the model.
-
-One voxel size. The ray layout is fixed in VOXELS, so a jaw stored at 0.48 mm
-is 25% larger on the curve than one stored at 0.6 mm. ``resample_spacing``
-brings every case to one voxel size first (true spacing from the v3 sidecar),
-WITHOUT cropping; ``align_volume(..., output_shape=...)`` then cuts the final
-(128, 256, 256) block around the jaw, with the slices centred on the
-dentition. Cropping before the alignment (``harmonise_spacing``, kept for
-compatibility) can cut teeth when the jaw is off-centre in the scan: resampled
-0.6 -> 0.48 mm, a jaw 70 voxels off-centre lost 23% of its teeth in the centre
-crop; resampling first and cropping in the alignment lost none.
-"""
 
 from __future__ import annotations
 
