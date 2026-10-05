@@ -1,22 +1,4 @@
-                     
-"""Train the NeBLa generation module (paper settings, Table 6-7).
 
-    python train_generation.py --data data/nebla_paper \
-        --train-cases ToothFairy3F_002 ToothFairy3F_003 --val-cases ToothFairy3F_004 \
-        --out runs/generation
-
-Paper settings used by default: Adam, lr 1e-4, batch 1 SimPX image (all
-128 x 256 = 32,768 rays per step), 300 epochs, early stopping on validation,
-L = MSE + 10 * proj + 1 * perc, 3D UNet widths 64/128/256/512.
-
-The best checkpoint is chosen on VALIDATION loss. Validation cases must be
-given and must not overlap training cases.
-
-Memory: at full paper widths the 3D UNet on 128 x 256 x 256 needs a large GPU
-(the authors used A100/A6000). ``--refine-checkpoint`` and ``--amp`` reduce
-memory without changing the model; ``--refine-f-maps 32 64 128 256`` changes
-the model (report it as a deviation if you use it).
-"""
 
 from __future__ import annotations
 
