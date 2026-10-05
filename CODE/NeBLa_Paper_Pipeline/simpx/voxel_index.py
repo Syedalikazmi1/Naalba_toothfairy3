@@ -1,19 +1,4 @@
-"""Eq. 7 lookup tables: which pixels' rays cross each voxel, B(x).
 
-    rho(I, x) = 1/|B(x)| * sum_{p in B(x)} F(x, e(I, p))
-
-The rays are in-plane and the same bundle is reused on every axial slice, so
-pixel p = (slice z, ray r) only reaches voxels of slice z, and B(x) depends
-only on the in-plane position of x. The tables are therefore built once, for
-all cases (the geometry is fixed).
-
-Each sample is assigned to its nearest voxel. F is evaluated at that VOXEL's
-location x (the paper: "F returns a density estimate at voxel location x").
-If one ray drops two samples into the same voxel, they count as ONE member of
-B(x): ``sample_weight`` = 1 / (samples of that ray in that voxel), so the sum
-over a ray's samples in a voxel equals one value, and ``count`` = number of
-distinct rays = |B(x)|.
-"""
 
 from __future__ import annotations
 
