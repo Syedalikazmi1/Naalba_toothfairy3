@@ -1,9 +1,4 @@
-"""Image folders for the translation module and the teeth segmenter.
 
-Every image is read as grayscale, resized to the SimPX size (128 x 256,
-rows x columns) and scaled to [0, 1]. ``.npy`` files are used as they are
-(SimPX are already 128 x 256 in [0, 1]).
-"""
 
 from __future__ import annotations
 
