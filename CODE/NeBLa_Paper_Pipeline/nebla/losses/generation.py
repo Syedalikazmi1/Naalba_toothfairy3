@@ -1,21 +1,4 @@
-"""Generation-module loss, paper Eq. 8-9.
 
-    L = L_MSE + lambda_1 * L_proj + lambda_2 * L_perc,    lambda_1 = 10, lambda_2 = 1
-
-* L_MSE  - voxel-wise squared error between sigma(I, x) and the CBCT value that
-           generated I.
-* L_proj - MSE between maximum intensity projections along the axial, coronal
-           and sagittal axes (mean of the three).
-* L_perc - perceptual loss (Johnson et al. 2016) with frozen VGG-16 features,
-           computed on the same three MIP images (VGG is 2D).
-
-Assumptions (the paper does not fix them): every term is a MEAN, not the sum
-written in Eq. 9. Means keep the three terms on comparable scales; sums would
-weight L_MSE (8.4 M voxels) far more than the MIP terms (32-65 k pixels), so
-the reduction changes the effective balance of lambda_1 and lambda_2. The
-three MIP terms are averaged, not summed, and the perceptual loss is taken on
-MIPs. Report these choices with your results.
-"""
 
 from __future__ import annotations
 
