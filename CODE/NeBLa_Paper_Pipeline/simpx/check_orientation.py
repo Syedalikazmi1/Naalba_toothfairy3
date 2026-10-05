@@ -1,40 +1,4 @@
-"""Check that every volume follows the axis contract BEFORE any ray is cast.
 
-    python simpx/check_orientation.py --volumes data/cbct_v3/volumes --out data/orientation_check
-
-The paper's rays lie in AXIAL slices, so a SimPX row is one axial slice and
-the teeth appear side by side. The volumes must follow the v3 contract
-
-    shape (D, H, W) = (Z, Y, X); axis 0 superior -> inferior (axial slices),
-    axis 1 anterior -> posterior (row 0 = front), axis 2 patient right -> left.
-
-If axis 0 is NOT superior-inferior -- e.g. the volume was made by resizing
-``nii.get_fdata()`` directly, which is (X, Y, Z) -- every SimPX row becomes a
-sagittal or coronal slice, the alignment rotates that plane by ~90 degrees,
-the central rays run up-down through the jaw, and the "SimPX" shows the arch
-from above like an occlusal radiograph, with tissue pushed out of the field of
-view. Nothing later in the pipeline can permute axes back.
-
-Two automatic checks, validated on phantoms in all six axis orders:
-
-1. Axial axis. Of the three projections of the densest voxels (the teeth),
-   only the one along superior-inferior shows a hollow arch: it fills a small
-   part of its convex hull and a parabola fits it. Score = hull fill x RMS
-   parabola residual / width (lower = more arch-like). The case FAILS when one
-   axis wins clearly (best / runner-up < 0.8) and it is not axis 0. Very
-   sparse dentitions (a few implants) form no arch in any projection: the
-   result is then "inconclusive" and the figure must be checked by eye.
-2. In-plane rotation. In the v3 contract the front teeth face row 0, and real
-   patients sit within a few tens of degrees of that. More than 45 degrees
-   FAILS: it means swapped or flipped in-plane axes, not a rotated patient.
-
-Up/down and left/right SIGNS cannot be told reliably from the image (the
-palate cue tested here failed on phantoms); they come from the NIfTI affine,
-which is why the volumes must be made with ``cbct_preprocess_v3.py``. The
-per-case figure shows three labelled projections so the signs can be checked
-by eye: axial (arch, front teeth at the TOP), coronal (teeth rows horizontal,
-upper jaw at the TOP), sagittal (face to the LEFT, upper jaw at the TOP).
-"""
 
 from __future__ import annotations
 
