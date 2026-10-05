@@ -1,29 +1,4 @@
-                     
-"""Build the paper-faithful SimPX dataset in one run.
 
-    python make_dataset.py --volumes data/cbct_v3/volumes --out data/nebla_paper
-
-    python make_dataset.py --volumes data/cbct_v3/volumes --meta-dir data/cbct_v3/meta \
-                           --out data/nebla_paper --real-px-dir real_px
-
-For every case in ``--volumes`` (``<case>.npy``, (128, 256, 256), values in [0, 1]):
-
-    1. resample to ONE voxel size (true spacing from the v3 sidecars in
-       ``--meta-dir``; ``--target-mm auto`` puts the median dentition at the
-       paper's ~100 voxels). No crop here.
-    2. rigid in-plane alignment to the standard pose, cutting the final
-       (128, 256, 256) block around the jaw, slices centred on the teeth -> volumes/<case>.npy
-    3. optical depth along the FIXED paper ray bundle         -> tau/<case>.npy
-Then, once for the whole dataset:
-    4. ONE beta by hyperparameter search (or ``--beta``)
-    5. SimPX = 1 - exp(-beta * tau), then ONE global min-max map (default;
-       see render.py: this makes it the paper's image)        -> simpx/<case>.npy, .png
-    6. geometry, sample grid and Eq. 7 index                   -> geometry.npz, voxel_index.npz
-    7. settings and per-case checks                            -> dataset.json, qc/<case>.png
-
-The geometry does not depend on any volume. Re-running with the same settings
-reproduces the same files (a SHA-256 of every array is stored in dataset.json).
-"""
 
 from __future__ import annotations
 
