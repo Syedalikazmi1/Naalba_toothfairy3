@@ -1,10 +1,4 @@
-"""Dataset reader for the output of ``simpx/make_dataset.py``.
 
-    <root>/dataset.json        settings (beta, geometry/index versions, cases)
-    <root>/voxel_index.npz     Eq. 7 tables, shared by every case
-    <root>/simpx/<case>.npy    (D, 256) SimPX in [0, 1]      -> model input
-    <root>/volumes/<case>.npy  (D, H, W) aligned CBCT in [0, 1] -> target
-"""
 
 from __future__ import annotations
 
