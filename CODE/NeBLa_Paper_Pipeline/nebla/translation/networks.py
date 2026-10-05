@@ -1,14 +1,3 @@
-"""Translation module networks (paper Sec. "Translation Module", Table 5).
-
-* Generators G: real PX -> SimPX and H: SimPX -> real PX. The paper: "a UNet
-  architecture consisting of four layers, with feature dimensions 64, 128,
-  256 and 512". The same UNET class as the image encoder is used, with one
-  output channel and tanh (CycleGAN works on images scaled to [-1, 1]).
-* Discriminators D_X, D_Y: the 70 x 70 PatchGAN of CycleGAN (Zhu et al. 2017),
-  the base model the paper names.
-* Teeth segmentation model S: a UNet with a sigmoid output, trained on a
-  public PX dataset with teeth masks; frozen while training the translation.
-"""
 
 from __future__ import annotations
 
