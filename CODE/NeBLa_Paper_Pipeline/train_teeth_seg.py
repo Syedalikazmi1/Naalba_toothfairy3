@@ -1,12 +1,4 @@
-                     
-"""Train the teeth segmentation model S used by the translation module's L_seg.
 
-The paper trains a UNet segmentation model on a public PX dataset
-(Abdi, Kasaei and Mehdizadeh 2015). Point --images / --masks at such a set
-(file names must match; masks are teeth = white).
-
-    python train_teeth_seg.py --images px_images --masks px_teeth_masks --out runs/teeth_seg
-"""
 
 from __future__ import annotations
 
