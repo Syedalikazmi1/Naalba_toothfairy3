@@ -1,19 +1,3 @@
-                     
-"""Reconstruct 3D volumes with a trained generation module.
-
-SimPX input (Synth. PX => CBCT evaluation):
-    python infer.py --ckpt runs/generation/best.pt --data data/nebla_paper \
-        --simpx data/nebla_paper/simpx/ToothFairy3F_004.npy --out preds \
-        --target data/nebla_paper/volumes/ToothFairy3F_004.npy
-
-Real PX input (Real PX => CBCT): the PX is resized to 128 x 256, translated to
-SimPX style by the trained translation generator G, then reconstructed.
-    python infer.py --ckpt runs/generation/best.pt --data data/nebla_paper \
-        --px patient.png --translator runs/translation/last.pt --out preds
-
-The geometry is the fixed paper geometry stored in ``<data>/voxel_index.npz``;
-nothing about the patient's CBCT is needed.
-"""
 
 from __future__ import annotations
 
