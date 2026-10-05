@@ -1,15 +1,4 @@
-"""Evaluation metrics for 3D reconstruction (paper Table 1).
 
-Peak Signal-to-Noise Ratio, Structural Similarity Index, Dice coefficient and
-Learned Perceptual Image Patch Similarity. Table 7 gives 0.2 as the threshold
-for the visual results; the paper does not state the Dice threshold, so 0.2 on
-the normalised density is used for Dice as well (an assumption).
-
-SSIM and LPIPS are inherently 2D, so they are averaged over the three maximum
-intensity projections used elsewhere in the paper unless ``reduce_slices`` is
-requested, in which case every axial slice is scored and averaged. PSNR and
-Dice are computed on the full volume.
-"""
 
 from __future__ import annotations
 
